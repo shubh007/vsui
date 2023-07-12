@@ -11,7 +11,8 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   public getDatesAndResources() : Observable<DatesWithResourceResponse>{
-     const url = VsUiConstants.BASE_IMAGE_URL_LOCAL+"dates/details";
+    //const url = VsUiConstants.BASE_IMAGE_URL_LOCAL+"dates/details"; 
+    const url = VsUiConstants.BASE_IMAGE_URL_LOCAL+"event/TJE3T7B";
     return this.http.get<DatesWithResourceResponse>(url);
   }
 }

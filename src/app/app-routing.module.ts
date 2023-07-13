@@ -8,8 +8,8 @@ import { AuthService } from './service/auth.service';
 
 const routes: Routes = [
   {path : '', component : LoginComponent},
-  {path : 'upload', component : UploadEventsComponent},
-  {path : 'view', component : ViewEventsComponent}
+  {path : 'upload', component : UploadEventsComponent,canActivate: [AuthService]},
+  {path : 'view', component : ViewEventsComponent,canActivate: [AuthService]} 
 ];
 
 @NgModule({

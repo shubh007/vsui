@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+.card.accordionGroupStyle .card-header {
+    background-color: #45df69 !important;
+    color: #fff !important;
+    border: 0;
+    border-radius: unset;
+}
+.panel.accordionGroupStyle {
+    background-color: #455adf !important;
+    color: #fff !important;
+    border: 0;
+    border-radius: unset;
+}

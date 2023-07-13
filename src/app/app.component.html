@@ -1,21 +1,3 @@
-<div class="container-fluid">
-  <ngb-accordion [closeOthers]="true" activeIds="resource-0">
-    <ngb-panel class="vsAccordian" *ngFor="let resourceAndDateDetail of dateAndResourceDeatailsResp ; index as i;" id="{{'resource-'+i}}" 
-    title="&#9733; {{resourceAndDateDetail.dateDetail.message}} &#9733; {{resourceAndDateDetail.dateDetail.date}} &#9733;">
-     <!-- <ng-template ngbPanelTitle >
-        <div class="vsAccordian">&#9733; {{resourceAndDateDetail.dateDetail.message}} &#9733; {{resourceAndDateDetail.dateDetail.date}} &#9733; </div> 
-      </ng-template> -->
-      <ng-template ngbPanelContent>
-       <div class="resourceGallaryContainer">
-        <div class="resourceContainer" *ngFor="let resourceDetail of resourceAndDateDetail.resourceDetails ; index as ii;" 
-        [ngStyle]="{'height':resourceDetail.height+'px','width':resourceDetail.width+'px'}" >
-          <img *ngIf="resourceDetail.resourceType == 'IMAGE' " class="actualImage" [src]="resourceDetail.url" alt="Random first slide">
-          <video *ngIf="resourceDetail.resourceType == 'VIDEO' " class="actualVideo" autoplay="autoplay" controls>
-            <source [src]="resourceDetail.url" type="video/mp4">
-        </video>
-        </div>
-       </div>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
-  </div>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

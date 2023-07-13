@@ -11,7 +11,7 @@ export class AuthService implements CanActivate {
   canActivate(activeRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.isLoggedIn(activeRoute,state)) {
       this.router.navigate(['']);
-      return false;
+      return true;
     }
     return true;
   }

@@ -7,9 +7,11 @@ import { Observable } from 'rxjs';
 import { AuthService } from './service/auth.service';
 
 const routes: Routes = [
-  {path : '', component : LoginComponent},
+  {path : '', component : LoginComponent,canActivate: [AuthService]},
+  //{path : 'login', component : LoginComponent,canActivate: [AuthService]},
   {path : 'upload', component : UploadEventsComponent,canActivate: [AuthService]},
-  {path : 'view', component : ViewEventsComponent,canActivate: [AuthService]} 
+  {path : 'view', component : ViewEventsComponent,canActivate: [AuthService]} ,
+ // { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

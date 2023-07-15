@@ -12,7 +12,7 @@ import * as converter from "number-to-words";
 
 export class ViewEventsComponent {
   title = 'vsui';
-
+  isLoadingDiabled = true;
 
   accordionGroupStyle = 'accordionGroupStyle';
   isFirstOpen = true;
@@ -31,9 +31,17 @@ export class ViewEventsComponent {
   }
   ngOnInit() {
     console.log();
-    this.apiService.getDatesAndResources().subscribe(data => {
-      this.dateAndResourceDeatailsResp = data.resourceAndDateDetails;
-    })        
+    this.isLoadingDiabled = false;
+    this.apiService.getDatesAndResources().subscribe({
+      next: data => {
+        this.dateAndResourceDeatailsResp = data.resourceAndDateDetails;
+        this.isLoadingDiabled = true;
+      },
+      error: error => {
+          this.isLoadingDiabled = true;
+          console.error('There was an error!', error);
+      }
+    })     
 }
 
 getCollapseId(index : number,isId : boolean){

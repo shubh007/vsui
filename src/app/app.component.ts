@@ -4,7 +4,7 @@ import { ApiService } from './api.service';
 import { DateAndResourceDeatails, ResourceAndDateDetail, VsUiConstants } from './vsuiconst';
 //import { VsUiConstants } from "./vsuiconst.ts";
 
-
+//declare var particlesJS: any;
 
 @Component({
   selector: 'app-root',
@@ -13,5 +13,10 @@ import { DateAndResourceDeatails, ResourceAndDateDetail, VsUiConstants } from '.
 })
 //http://localhost:9100/vs/confessionOfLove/images/PHOTO-2022-11-13-17-12-04.jpg
 export class AppComponent {
+
+  ngOnInit(): void {
+    //particlesJS.load('particles-js', '../assets/jslib/particle/particles.json', null);
+  } 
+
   
 }

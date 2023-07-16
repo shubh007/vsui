@@ -1,27 +1,50 @@
-# Vsui
+# README #
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+### What is this repository for? ###
 
-## Development server
+* Quick summary : Service is responsible for shop creation and management
+* Version : 0.1
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### How do I get set up? ###
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Setup
+$HOME/znoLogins/pems chmod 400 *
 
-## Build
+sudo apt-get update
+sudo apt-get upgrade
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Login to host
+ssh -o IdentitiesOnly=yes -i $HOME/znoLogins/pems/vsui.pem ubuntu@16.171.38.47
 
-## Running unit tests
+### Config structure
+mkdir -p zno/vsui/deployment/lib/ zno/vsui/deployment/bin/ zno/vsui/deployment/config/ zno/vsui/deployment/logs/
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Ip and port
+host: 16.171.38.47 , port : 4200
 
-## Running end-to-end tests
+sudo apt update
+sudo apt install nginx
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+systemctl status nginx
 
-## Further help
+sudo nginx -t
+sudo nginx -s reload
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+sudo apt install npm
+
+cd /etc/nginx/conf.d
+   sudo touch vsui.conf
+   sudo vi vsui.conf
+    server{
+        listen 80;
+        listen [::]:80; 
+        server_name www.varshasingh.app varshasingh.app www.varsha.love varsha.love www.varshasingh.love varshasingh.love;
+        location / {
+                proxy_pass http://localhost:8080/;
+
+        }
+    }
+
+sudo nginx -t
+sudo nginx -s reload

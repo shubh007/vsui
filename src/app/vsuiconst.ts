@@ -3,8 +3,22 @@ export class VsUiConstants
     static readonly BASE_IMAGE_URL_LOCAL = 'http://localhost:9100/vs/';
     static readonly BASE_IMAGE_URL_PROD = 'http://localhost:9100/vs/';
 };
+export enum StatusResponseType {
+    ERROR = 'ERROR',
+    SUCCESS = 'SUCCESS',
+    WARNING = 'WARNING',
+    FAILURE = 'FAILURE'
+}
+export interface ApiResponse {
+  statusResponse: StatusResponse;
+}
+export interface StatusResponse {
+  statusCode: number,
+  statusMessage: string,
+  statusType: StatusResponseType;
+  errors: any[];
 
-
+}
 export interface DateDetail {
   date: string;
   message: string;
@@ -22,12 +36,22 @@ export interface ResourceAndDateDetail {
   order: number;
   resourceDetails: ResourceDetail[];
 }
-
-export interface DatesWithResourceResponse {
+export interface AuthResponse extends ApiResponse {
+  userName: string;
+  userId: string;
+}
+export interface UserDetails {
+  userName: string | null;
+  userId: string | null;
+  writeOnlyCode : string | null;
+  readOnlyCode : string | null;
+}
+export interface DatesWithResourceResponse extends ApiResponse{
   resourceAndDateDetails: ResourceAndDateDetail[];
 }
 
 export const DateAndResourceDeatails = {
+  
   "resourceAndDateDetails": [
     {
       "dateDetail": {

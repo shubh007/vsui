@@ -1,36 +1,5 @@
-.image-wrapper{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: stretch;
-}
-.carousel-control-prev-icon {
-    background-color: black !important;
-}
-.actualImage {
-    height: 100%;
-    width: 100%;
-}
-.actualVideo{
-    height: 100%;
-    width: 100%;
-}
-.resourceContainer{
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-}
-.resourceGallaryContainer{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-content: flex-start;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-.vsAccordian{
-    background-color: #6610f2 !important;
-    color: #fff !important;
+.particles-js-canvas-el {
+    position: fixed;
+    top: 0;
+    z-index: -1;
 }

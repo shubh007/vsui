@@ -1,0 +1,31 @@
+<div *ngIf="isLoadingDiabled" class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item" *ngFor="let resourceAndDateDetail of dateAndResourceDeatailsResp ; index as i;">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]=getCollapseId(i,true) aria-expanded="false" [attr.aria-controls]=getCollapseId(i,false)>
+       {{'&#9733;' + resourceAndDateDetail.dateDetail.message +'&#9733;' +resourceAndDateDetail.dateDetail.date+'&#9733;'}}
+      </button>
+    </h2>
+    <div [id]=getCollapseId(i,false) class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="resourceGallaryContainer">
+        <div class="resourceContainer" *ngFor="let resourceDetail of resourceAndDateDetail.resourceDetails ; index as ii;" 
+        [ngStyle]="{'height':resourceDetail.height+'px','width':resourceDetail.width+'px'}" >
+          <img *ngIf="resourceDetail.resourceType == 'IMAGE' " class="actualImage" [src]="resourceDetail.url" alt="Random first slide">
+          <video *ngIf="resourceDetail.resourceType == 'VIDEO' " class="actualVideo" controls>
+            <source [src]="resourceDetail.url" type="video/mp4">
+        </video>
+        </div>
+       </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isLoadingDiabled">
+  <div  class="spinner-grow text-secondary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="spinner-grow text-secondary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="spinner-grow text-secondary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

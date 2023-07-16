@@ -1,0 +1,20 @@
+<div class="logincontainer">   
+    <form *ngIf="isLoadingDiabled" class="row g-3" #userlogin = "ngForm" (ngSubmit) = "onClickSubmit(userlogin)">
+        <div class="col-auto">
+          <label for="inputPassword2" class="visually-hidden">Password</label>
+          <input type="password" name = "password" class="form-control" id="inputPassword2" placeholder="Password" ngModel>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-dark mb-3">Confirm identity</button>
+        </div>
+      </form>
+      <div *ngIf="!isLoadingDiabled" class="spinner-grow text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div *ngIf="!isLoadingDiabled" class="spinner-grow text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div *ngIf="!isLoadingDiabled" class="spinner-grow text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+</div>

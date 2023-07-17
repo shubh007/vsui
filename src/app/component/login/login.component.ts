@@ -12,7 +12,7 @@ import { AuthResponse, StatusResponseType } from 'src/app/vsuiconst';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  
+  info = '';
   authResponse : AuthResponse | undefined;
   isLoadingDiabled = true;
   constructor(private apiService : ApiService, private localStorageService : LocalStorageService,private router: Router) {
@@ -21,22 +21,23 @@ export class LoginComponent {
 
   onClickSubmit(ngForm : NgForm) {
     this.isLoadingDiabled = false;
-    this.apiService.isReadOnlyCodeValid(ngForm.value.password).subscribe({
+    this.info = ngForm.value.password;
+    this.apiService.isReadOnlyCodeValid(this.info).subscribe({
       next: data => {
        if(data.statusResponse.statusType == StatusResponseType.SUCCESS){
-        this.localStorageService.storeReadOnlyUserDetails(ngForm.value.password,data);
+        this.localStorageService.storeUserDetails(this.info,data);
         this.isLoadingDiabled = true;
-        this.router.navigate(['/', 'view']);
+        this.router.navigate(['/']);
        }else{
         this.isLoadingDiabled = true;
         ngForm.resetForm();
-        this.router.navigate(['/']);
+        this.router.navigate(['/', 'login']);
        }
       },
       error: error => {
           this.isLoadingDiabled = true;
           ngForm.resetForm();
-          this.router.navigate(['/']);
+          this.router.navigate(['/','login']);
           console.error('There was an error!', error);
       }
     })

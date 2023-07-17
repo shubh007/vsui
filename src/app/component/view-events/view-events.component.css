@@ -1,3 +1,16 @@
+.home-container{
+    display: block;
+    height: 100%;
+    width: 100%;
+    background-color: #2da900;
+}
+.home-header{
+    height: 100%;
+    width: 100%;
+}
+.home-body{
+
+}
 .image-wrapper{
     display: flex;
     flex-direction: row;

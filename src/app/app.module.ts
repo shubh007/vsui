@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewEventsComponent } from './component/view-events/view-events.component';
-import { UploadEventsComponent } from './component/upload-events/upload-events.component';
 import { LoginComponent } from './component/login/login.component';
 import { AppRoutingModuleimplements } from './app-routing.module';
 
@@ -16,7 +15,6 @@ import { AppRoutingModuleimplements } from './app-routing.module';
   declarations: [
     AppComponent,
     ViewEventsComponent,
-    UploadEventsComponent,
     LoginComponent
   ],
   imports: [

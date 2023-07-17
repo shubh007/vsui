@@ -48,3 +48,7 @@ cd /etc/nginx/conf.d
 
 sudo nginx -t
 sudo nginx -s reload
+
+sudo npm install --global http-server
+
+sudo lsof -i:8080

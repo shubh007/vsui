@@ -1,7 +1,7 @@
 export class VsUiConstants
 {
     static readonly BASE_IMAGE_URL_LOCAL = 'http://localhost:9100/vs/';
-    static readonly BASE_IMAGE_URL_PROD = 'http://localhost:9100/vs/';
+    static readonly BASE_IMAGE_URL_PROD = 'https://apis.varsha.love/vs/';
 };
 export enum StatusResponseType {
     ERROR = 'ERROR',
@@ -22,6 +22,7 @@ export interface StatusResponse {
 export interface DateDetail {
   date: string;
   message: string;
+  eventId: string;
 }
 
 export interface ResourceDetail {
@@ -43,8 +44,7 @@ export interface AuthResponse extends ApiResponse {
 export interface UserDetails {
   userName: string | null;
   userId: string | null;
-  writeOnlyCode : string | null;
-  readOnlyCode : string | null;
+  godModeCode : string | null;
 }
 export interface DatesWithResourceResponse extends ApiResponse{
   resourceAndDateDetails: ResourceAndDateDetail[];

@@ -11,43 +11,34 @@ export class AuthService implements CanActivate {
   
   canActivate(activeRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log(" state.url "+state.url);
-    if((state.url === '/') && this.isNonLoggedIn(activeRoute,state)){
-      return true;
-    }
-    else if((state.url === '/') && !this.isNonLoggedIn(activeRoute,state)){
-      this.router.navigate(['/view']);
-      return false;
-    }else if (!this.isLoggedIn(activeRoute,state)) {
-      this.router.navigate(['']);
-      return false;
-    }else {
-      return true;
+    if(state.url === '/login'){
+      if(this.isLoggedIn(activeRoute,state)){
+        this.router.navigate(['']);
+        return false;
+      }else{
+        return true;
+      }
+    }else if(state.url === '/'){
+      if(this.isLoggedIn(activeRoute,state)){
+        return true;
+      }else{
+        this.router.navigate(['/login']);
+        return false;
+      }
+    }else{
+      if(this.isLoggedIn(activeRoute,state)){
+        this.router.navigate(['/']);
+        return true;
+      }else{
+        this.router.navigate(['/login']);
+        return false;
+      }
     }
   }
 
-  isNonLoggedIn(activeRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) : boolean{
-      const userDetails = this.localStorageService.getUserDetails();
-      return (userDetails === null || userDetails === undefined
-         || (userDetails.readOnlyCode === null || userDetails.readOnlyCode === undefined)&&
-         ( userDetails.writeOnlyCode === null || userDetails.writeOnlyCode === undefined));
-  }
   isLoggedIn(activeRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) : boolean{
-    if(state.url === '/view'){
       const userDetails = this.localStorageService.getUserDetails();
-      if(userDetails === null || userDetails === undefined
-         || userDetails.readOnlyCode === null || userDetails.readOnlyCode === undefined){
-        return false;
-      }
-      return true;
-    }
-    if(state.url === '/upload'){
-      const userDetails = this.localStorageService.getUserDetails();
-      if(userDetails === null || userDetails === undefined
-         || userDetails.writeOnlyCode === null || userDetails.writeOnlyCode === undefined){
-        return false;
-      }
-      return true;
-    }
-    return false;
+      return (userDetails != null && userDetails != undefined
+        && userDetails.godModeCode != null && userDetails.godModeCode != undefined);
   }
 }

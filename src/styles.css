@@ -1,5 +1,6 @@
 .vscontainer{
     margin: 0 !important;
     padding: 0 !important;
-    background: aquamarine;
+    display: block;
+    background: rgb(8, 168, 107);
 }

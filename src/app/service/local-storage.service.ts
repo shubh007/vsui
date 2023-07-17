@@ -19,22 +19,22 @@ export class LocalStorageService {
       localStorage.removeItem(key);
   }
   
-  storeReadOnlyUserDetails(code : string, authResponse : AuthResponse){
+  storeUserDetails(godModeCode : string, authResponse : AuthResponse){
     this.set("userId",authResponse.userId);
     this.set("userName",authResponse.userName);
-    this.set("readOnlyCode",code);
+    this.set("godModeCode",godModeCode);
   }
-  storeWriteOnlyUserDetails(code : string, authResponse : AuthResponse){
-    this.set("userId",authResponse.userId);
-    this.set("userName",authResponse.userName);
-    this.set("writeOnlyCode",code);
+  clearUserDetails(){
+    this.remove("userId");
+    this.remove("userName");
+    this.remove("godModeCode");
   }
+
   getUserDetails() : UserDetails{
     return {
       userName: this.get('userName'),
       userId: this.get('userId'),
-      writeOnlyCode : this.get('writeOnlyCode'),
-      readOnlyCode : this.get('readOnlyCode'),
+      godModeCode : this.get('godModeCode'),
     }
 
   }

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
 import { ResourceAndDateDetail } from 'src/app/vsuiconst';
 import * as converter from "number-to-words";
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
 
 @Component({
   selector: 'app-view-events',
@@ -19,7 +21,7 @@ export class ViewEventsComponent {
 
   dateAndResourceDeatailsResp : ResourceAndDateDetail[] | undefined;
  // constructor(private config: NgbCarouselConfig,private apiService : ApiService) {
-  constructor(private apiService : ApiService) {
+  constructor(private apiService : ApiService, private localStorageService : LocalStorageService, private router: Router) {
   /*  config.interval = 10000;
     config.keyboard = true;
     config.pauseOnHover = true;
@@ -38,12 +40,15 @@ export class ViewEventsComponent {
         this.isLoadingDiabled = true;
       },
       error: error => {
-          this.isLoadingDiabled = true;
+          this.isLoadingDiabled = false;
           console.error('There was an error!', error);
       }
     })     
 }
-
+logout(){
+  this.localStorageService.clearUserDetails();
+  this.router.navigate(['/', 'login']);
+}
 getCollapseId(index : number,isId : boolean){
   let preFix = "flush-collapse";
   if(isId){

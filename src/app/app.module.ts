@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewEventsComponent } from './component/view-events/view-events.component';
 import { LoginComponent } from './component/login/login.component';
 import { AppRoutingModuleimplements } from './app-routing.module';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { AppRoutingModuleimplements } from './app-routing.module';
     AppRoutingModuleimplements,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

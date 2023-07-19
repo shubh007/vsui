@@ -9,6 +9,10 @@ export enum StatusResponseType {
     WARNING = 'WARNING',
     FAILURE = 'FAILURE'
 }
+export interface ApiRequest {
+  userId: string;
+  code: string;
+}
 export interface ApiResponse {
   statusResponse: StatusResponse;
 }
@@ -27,6 +31,7 @@ export interface DateDetail {
 
 export interface ResourceDetail {
   url: string;
+  hashFile: string;
   resourceType: string;
   height: number;
   width: number;
@@ -47,7 +52,18 @@ export interface UserDetails {
   godModeCode : string | null;
 }
 export interface DatesWithResourceResponse extends ApiResponse{
+  name: String;
   resourceAndDateDetails: ResourceAndDateDetail[];
+}
+export interface CreateEventResponse extends ApiResponse{
+  resourceAndDateDetail: ResourceAndDateDetail ;
+}
+export interface AddToEventResponse extends ApiResponse{
+  resourceDetail: ResourceDetail ;
+}
+export interface CreateEventRequest extends ApiRequest{
+    date : Date;
+    message : string;
 }
 
 export const DateAndResourceDeatails = {

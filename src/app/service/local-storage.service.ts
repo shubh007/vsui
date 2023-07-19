@@ -36,6 +36,22 @@ export class LocalStorageService {
       userId: this.get('userId'),
       godModeCode : this.get('godModeCode'),
     }
-
+  }
+  getUsername() : string | null{
+    return this.get('userName');
+  }
+  getUserId() : string {
+    let userId = this.get('userId');
+    if(userId == null || userId == undefined){
+      return '';
+    }
+    return userId;
+  }
+  getGodModeCode() : string {
+    let godModeCode = this.get('godModeCode');
+    if(godModeCode == null || godModeCode == undefined){
+      return '';
+    }
+    return godModeCode;
   }
 }

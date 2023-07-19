@@ -32,8 +32,10 @@
           </video>
           </div>
         </div>
+       <div class="add-event-container" > <button type="button" class="btn btn-success add-event" data-bs-toggle="modal" data-bs-target="#addToEvent" (click)="updateCurrentEventId(resourceAndDateDetail.dateDetail.eventId)"><i class="bi bi-folder-plus"></i></button></div>
       </div>
     </div>
+    <div class="create-event-container" > <button type="button" class="btn btn-success create-event" data-bs-toggle="modal" data-bs-target="#createEvent"><i class="bi bi-folder-plus"></i> Create New Event</button></div>
   </div>
 </div>
 </div>
@@ -46,5 +48,46 @@
   </div>
   <div class="spinner-grow text-secondary" role="status">
     <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div class="modal fade" id="addToEvent" tabindex="-1" aria-labelledby="addToEventLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addToEventLabel">Hey {{this.firstName}} <i class="bi bi-emoji-heart-eyes"></i> , Lets add some memories!! </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #addToEventForm = "ngForm" (ngSubmit) = "addToEvent()">
+          <div class="mb-3">
+            <input class="form-control" name = "eventFile" type="file" id="formFile" accept="image/*, video/*" (change)="onFileSelected($event)" ngModel>
+          </div>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="createEvent" tabindex="-1" aria-labelledby="createEventLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="createEventLabel">Hey {{this.firstName}} <i class="bi bi-emoji-heart-eyes"></i> , Lets add some memories!! </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #createEventForm = "ngForm" (ngSubmit) = "createEvent(createEventForm)">
+          <div class="mb-3">
+            <label for="messageFormControlInput" class="form-label">Enter a message</label>
+            <input type="text" class="form-control" name = "eventMessage"  id="messageFormControlInput" placeholder="Few Words.." ngModel>
+          </div>
+          <div class="mb-3">
+            <label for="dateFormControlInput" class="form-label">Enter event date</label>
+            <input type="date" name = "eventDate" class="form-control" id="dateFormControlInput" ngModel>
+          </div>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>

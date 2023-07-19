@@ -18,7 +18,7 @@ sudo apt-get upgrade
 ssh -o IdentitiesOnly=yes -i $HOME/znoLogins/pems/vsui.pem ubuntu@16.171.38.47
 
 ### Config structure
-mkdir -p zno/vsui/deployment/lib/ zno/vsui/deployment/bin/ zno/vsui/deployment/config/ zno/vsui/deployment/logs/
+mkdir -p /home/ubuntu/deployment/vsui/code/vsui
 
 ### Ip and port
 host: 16.171.38.47 , port : 4200

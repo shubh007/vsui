@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AddToEventResponse, ApiResponse, AuthResponse, CreateEventRequest, CreateEventResponse, DatesWithResourceResponse, VsUiConstants } from './vsuiconst';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpEventType,HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { LocalStorageService } from './service/local-storage.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -23,14 +22,17 @@ export class ApiService {
     const url = this.baseUrl+"event";
     return this.http.post<CreateEventResponse>(url,createEventRequest);
   }
-  public addToEvent(eventId : string, eventFile : File) : Observable<AddToEventResponse>{
+  public addToEvent(eventId : string, eventFile : File) : Observable<HttpEvent<AddToEventResponse>>{
     let addToEventRequest = new FormData();
     addToEventRequest.append("userId", this.localStorageService.getUserId());
     addToEventRequest.append("code", this.localStorageService.getGodModeCode());
     addToEventRequest.append("eventId", eventId);
     addToEventRequest.append("eventFile", eventFile);
     const url = this.baseUrl+"event";
-    return this.http.put<AddToEventResponse>(url,addToEventRequest);
+    return this.http.put<AddToEventResponse>(url,addToEventRequest,{
+      reportProgress: true,
+      observe: "events"
+    });
   }
 
   public getDatesAndResources() : Observable<DatesWithResourceResponse>{

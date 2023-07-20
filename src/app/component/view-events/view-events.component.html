@@ -55,15 +55,18 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="addToEventLabel">Hey {{this.firstName}} <i class="bi bi-emoji-heart-eyes"></i> , Lets add some memories!! </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button #closeUploadModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form #addToEventForm = "ngForm" (ngSubmit) = "addToEvent()">
+        <form #addToEventForm = "ngForm" (ngSubmit) = "addToEvent(addToEventForm)">
           <div class="mb-3">
             <input class="form-control" name = "eventFile" type="file" id="formFile" accept="image/*, video/*" (change)="onFileSelected($event)" ngModel>
           </div>
-          <button type="submit" class="btn btn-primary">Upload</button>
+          <button *ngIf="!uploadInProgress" type="submit" class="btn btn-primary">Upload</button>
         </form>
+        <div  *ngIf="uploadInProgress"  class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar progress-bar-striped bg-success" [style.width]="progress + '%'">{{progress}}%</div>
+        </div>
       </div>
     </div>
   </div>

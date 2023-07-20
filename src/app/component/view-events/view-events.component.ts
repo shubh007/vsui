@@ -25,6 +25,10 @@ export class ViewEventsComponent {
   selectedFile : any;
   progress = 0;
   uploadInProgress = false;
+  alertInProgress = false;
+  statusMessage = '';
+  statusMessageColor = 'alert-success';
+  timeInMilliseconds = 2000;
   @ViewChild('closeUploadModal') closeUploadModal: ElementRef | undefined
   // DatesWithResourceResponse
   dateAndResourceDeatailsResp : ResourceAndDateDetail[] | undefined;
@@ -53,7 +57,7 @@ export class ViewEventsComponent {
       }
     })  
     this.getFirstName();
-}
+  }
 logout(){
   this.localStorageService.clearUserDetails();
   this.router.navigate(['/', 'login']);
@@ -80,23 +84,42 @@ onFileSelected(event: any){
     console.log(file.name);
   }
 }
+closeStatusAlert(){
+  this.alertInProgress = false;
+}
 addToEvent(ngForm : NgForm) {
   const eventId = this.currentEventId;
   this.uploadInProgress = true;
+  this.alertInProgress = false;
   this.apiService.addToEvent(eventId,this.selectedFile as File).pipe(
     map((event: any) => {
       if (event.type == HttpEventType.UploadProgress) {
         this.progress = Math.round((100 / event.total) * event.loaded);
       } else if (event.type == HttpEventType.Response) {
         this.progress = 0;
+        this.alertInProgress = true;
+        this.uploadInProgress = false;
         if(event.body.statusResponse.statusType == StatusResponseType.SUCCESS){
           this.updateResourceDetails(event.body.resourceDetail,eventId);
-         }
-         this.selectedFile = null;
-         ngForm.resetForm();
-         this.uploadInProgress = false;
-         if(this.closeUploadModal != undefined){
-          this.closeUploadModal.nativeElement.click();
+          this.statusMessage = "Memory uploaded successfully!";
+          this.statusMessageColor = 'alert-success';
+          var refToThis = this;
+          setTimeout(function(){
+            refToThis.selectedFile = null;
+            refToThis.alertInProgress = false;
+            ngForm.resetForm();
+            if(refToThis.closeUploadModal != undefined){
+              refToThis.closeUploadModal.nativeElement.click();
+            }
+          }, this.timeInMilliseconds);
+          
+         }else{
+          this.statusMessage = "Failed to upload memory";
+          this.statusMessageColor = 'alert-danger';
+          var refToThis = this;
+          setTimeout(function(){
+            refToThis.alertInProgress = false;
+          }, this.timeInMilliseconds);
          }
       }
     }),
@@ -105,9 +128,12 @@ addToEvent(ngForm : NgForm) {
       this.selectedFile = null;
       ngForm.resetForm();
       this.uploadInProgress = false;
-      if(this.closeUploadModal != undefined){
-        this.closeUploadModal.nativeElement.click();
-       }
+      this.statusMessage = "Failed to upload memory";
+      this.statusMessageColor = 'alert-danger';
+      var refToThis = this;
+      setTimeout(function(){
+        refToThis.alertInProgress = false;
+      }, this.timeInMilliseconds);
       console.error('There was an error!', err.message);
       return throwError(() => new Error(err.message));
     })

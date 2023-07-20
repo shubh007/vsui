@@ -11,6 +11,9 @@
 .home-body{
 
 }
+.alertPos{
+    top: 1em;
+}
 .create-event{
     display: block;
     position: relative;

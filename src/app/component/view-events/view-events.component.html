@@ -67,6 +67,10 @@
         <div  *ngIf="uploadInProgress"  class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar progress-bar-striped bg-success" [style.width]="progress + '%'">{{progress}}%</div>
         </div>
+        <div [ngClass]="statusMessageColor" *ngIf="alertInProgress" class="alert alert-dismissible alertPos" role="alert">
+          <div> {{statusMessage}} </div>
+           <button type="button" class="btn-close" (click)="closeStatusAlert()" aria-label="Close"></button>
+        </div>
       </div>
     </div>
   </div>

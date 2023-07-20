@@ -21,7 +21,7 @@ ssh -o IdentitiesOnly=yes -i $HOME/znoLogins/pems/vsui.pem ubuntu@16.171.38.47
 mkdir -p /home/ubuntu/deployment/vsui/code/vsui
 
 ### Ip and port
-host: 16.171.38.47 , port : 4200
+host: 16.171.38.47 , port : 7600
 
 sudo apt update
 sudo apt install nginx
@@ -45,9 +45,13 @@ cd /etc/nginx/conf.d
 
         }
     }
+cd /etc/nginx/conf.d
+sudo vi vsui.conf
+client_max_body_size 15M;
+
 
 sudo nginx -t
-sudo nginx -s reload
+sudo nginx -s reload    
 
 sudo npm install --global http-server
 

@@ -24,10 +24,6 @@
     overflow-y: scroll;
 }
 
-
-.vsnavcf{
-   /* background-color: #d7e2fa00 !important; */
-}
 .image-wrapper{
     display: flex;
     flex-direction: row;

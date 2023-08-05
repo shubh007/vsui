@@ -8,8 +8,8 @@ import { LocalStorageService } from './service/local-storage.service';
 })
 export class ApiService {
 
-  baseUrl = VsUiConstants.BASE_IMAGE_URL_LOCAL;
-  //baseUrl = VsUiConstants.BASE_IMAGE_URL_PROD;
+  //baseUrl = VsUiConstants.BASE_IMAGE_URL_LOCAL;
+  baseUrl = VsUiConstants.BASE_IMAGE_URL_PROD;
   constructor(private http: HttpClient, private localStorageService : LocalStorageService) { }
 
   public createEvent(createEventRequest : CreateEventRequest) : Observable<HttpEvent<CreateEventResponse>>{

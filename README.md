@@ -14,8 +14,12 @@ $HOME/znoLogins/pems chmod 400 *
 sudo apt-get update
 sudo apt-get upgrade
 
+BUild
+ng build
+
 ### Login to host
 ssh -o IdentitiesOnly=yes -i $HOME/znoLogins/pems/vsui.pem ubuntu@16.171.38.47
+git pull
 
 ### Config structure
 mkdir -p /home/ubuntu/deployment/vsui/code/vsui

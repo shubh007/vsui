@@ -1,0 +1,35 @@
+.resourceContainer{
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    cursor: pointer;
+}
+.resourceGallaryContainer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.vs-modal-title{
+    display: inline-block;
+}
+.vs-modal-add-to-event{
+    cursor: pointer;
+    position: fixed;
+    right: 5%;
+    display: inline-block;
+    background-color: var(--body-background-color);
+    border: 0px;
+}
+.vs-modal-close{
+    cursor: pointer;
+    position: fixed;
+    right: 1%;
+    display: inline-block;
+    margin: 0px;
+}
+.vs-modal-header{
+    display: block;
+}

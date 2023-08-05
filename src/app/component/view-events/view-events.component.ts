@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
-import { ResourceAndDateDetail, ResourceDetail, StatusResponseType } from 'src/app/vsuiconst';
+import { ModelActions, ResourceAndDateDetail, ResourceDetail, ResourceType, StatusResponseType } from 'src/app/vsuiconst';
 import * as converter from "number-to-words";
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
@@ -8,47 +8,75 @@ import { NgForm } from '@angular/forms';
 import { HttpEventType } from '@angular/common/http';
 import { map, catchError } from "rxjs/operators";
 import { throwError } from "rxjs";
+import { VsDataSharingService } from 'src/app/service/vs-data-sharing.service';
+import { ShowEventComponent } from '../show-event/show-event.component';
+import { AddEventComponent } from '../add-event/add-event.component';
+import { OpenGalleryComponent } from '../open-gallery/open-gallery.component';
+import { InputEventsComponent } from '../input-events/input-events.component';
 @Component({
   selector: 'app-view-events',
   templateUrl: './view-events.component.html',
   styleUrls: ['./view-events.component.css'],
+
 })
 
-
-export class ViewEventsComponent {
+export class ViewEventsComponent  implements AfterViewInit, OnInit {
   title = 'vsui';
   isLoadingDiabled = true;
   firstName : string | undefined;
   accordionGroupStyle = 'accordionGroupStyle';
   isFirstOpen = true;
-  currentEventId = '';
-  selectedFile : any;
-  progress = 0;
-  uploadInProgress = false;
-  alertInProgress = false;
-  statusMessage = '';
-  statusMessageColor = 'alert-success';
-  timeInMilliseconds = 2000;
-  @ViewChild('closeUploadModal') closeUploadModal: ElementRef | undefined
-  // DatesWithResourceResponse
-  dateAndResourceDeatailsResp : ResourceAndDateDetail[] | undefined;
- // constructor(private config: NgbCarouselConfig,private apiService : ApiService) {
-  constructor(private apiService : ApiService, private localStorageService : LocalStorageService, private router: Router) {
-  /*  config.interval = 10000;
-    config.keyboard = true;
-    config.pauseOnHover = true;
-    config.showNavigationIndicators = true;*/
+  seletedEvent = { 
+    dateDetail: {
+      date: '',
+      name: '',
+      message: '',
+      cardUrl:'',
+      eventId: '',
+    },
+    order: 0,
+    resourceDetails: [{
+      url: '',
+      hashFile: '',
+      resourceType: ResourceType.IMAGE,
+      height: 0,
+      width: 0,
+    }],
+  } as ResourceAndDateDetail;
+
   
+  dateAndResourceDeatailsResp : ResourceAndDateDetail[] | undefined;
+ 
+  constructor( private vsDataSharingService : VsDataSharingService, private apiService : ApiService, private localStorageService : LocalStorageService, private router: Router) {
+  
+    this.vsDataSharingService.createdEventObservable.subscribe(data => {
+      console.log(" data createdEventObservable ",data);
+      this.updateDateAndResourceDeatailsResp(data);
+    });
+    this.vsDataSharingService.addToEventObservable.subscribe(data => {
+      console.log(" data addToEventObservable ",data);
+      this.updateResourceDetails(data.resourceDetail,data.eventId);
+    });
+    
+  }
+  ngAfterViewInit(): void {
+    console.log(" ngAfterViewInit ");
+    
   }
   log(event: boolean) {
     console.log(`Accordion has been ${event ? 'opened' : 'closed'}`);
   }
   ngOnInit() {
-    console.log();
+    console.log(" ngOnInit ");
+    
     this.isLoadingDiabled = false;
     this.apiService.getDatesAndResources().subscribe({
       next: data => {
         this.dateAndResourceDeatailsResp = data.resourceAndDateDetails;
+        if(this.dateAndResourceDeatailsResp.length > 0){
+          this.seletedEvent = this.dateAndResourceDeatailsResp[0];
+          this.vsDataSharingService.updateSelectedEventData(this.seletedEvent);
+        }
         this.isLoadingDiabled = true;
       },
       error: error => {
@@ -62,6 +90,14 @@ logout(){
   this.localStorageService.clearUserDetails();
   this.router.navigate(['/', 'login']);
 }
+selectEvent(resourceAndDateDetail: ResourceAndDateDetail){
+  this.seletedEvent = resourceAndDateDetail;
+  this.vsDataSharingService.updateSelectedEventData(this.seletedEvent);
+  this.vsDataSharingService.updateGalleryModelData(ModelActions.OPEN);
+}
+goToHome(){
+  this.router.navigate(['']);
+}
 getCollapseId(index : number,isId : boolean){
   let preFix = "flush-collapse";
   if(isId){
@@ -74,99 +110,34 @@ getFirstName(){
   let userName = this.localStorageService.getUsername();
   this.firstName = userName?.split(" ")[0];
 }
-updateCurrentEventId(newEventId : string){
-  this.currentEventId = newEventId;
-}
-onFileSelected(event: any){
-  const file:File = event.target.files[0];
-  if (file) {
-    this.selectedFile = file;
-    console.log(file.name);
-  }
-}
-closeStatusAlert(){
-  this.alertInProgress = false;
-}
-addToEvent(ngForm : NgForm) {
-  const eventId = this.currentEventId;
-  this.uploadInProgress = true;
-  this.alertInProgress = false;
-  this.apiService.addToEvent(eventId,this.selectedFile as File).pipe(
-    map((event: any) => {
-      if (event.type == HttpEventType.UploadProgress) {
-        this.progress = Math.round((100 / event.total) * event.loaded);
-      } else if (event.type == HttpEventType.Response) {
-        this.progress = 0;
-        this.alertInProgress = true;
-        this.uploadInProgress = false;
-        if(event.body.statusResponse.statusType == StatusResponseType.SUCCESS){
-          this.updateResourceDetails(event.body.resourceDetail,eventId);
-          this.statusMessage = "Memory uploaded successfully!";
-          this.statusMessageColor = 'alert-success';
-          var refToThis = this;
-          setTimeout(function(){
-            refToThis.selectedFile = null;
-            refToThis.alertInProgress = false;
-            ngForm.resetForm();
-            if(refToThis.closeUploadModal != undefined){
-              refToThis.closeUploadModal.nativeElement.click();
-            }
-          }, this.timeInMilliseconds);
-          
-         }else{
-          this.statusMessage = "Failed to upload memory";
-          this.statusMessageColor = 'alert-danger';
-          var refToThis = this;
-          setTimeout(function(){
-            refToThis.alertInProgress = false;
-          }, this.timeInMilliseconds);
-         }
-      }
-    }),
-    catchError((err: any) => {
-      this.progress = 0;
-      this.selectedFile = null;
-      ngForm.resetForm();
-      this.uploadInProgress = false;
-      this.statusMessage = "Failed to upload memory";
-      this.statusMessageColor = 'alert-danger';
-      var refToThis = this;
-      setTimeout(function(){
-        refToThis.alertInProgress = false;
-      }, this.timeInMilliseconds);
-      console.error('There was an error!', err.message);
-      return throwError(() => new Error(err.message));
-    })
-  )
-  .toPromise();
-}
-createEvent(ngForm : NgForm){
-  console.log(ngForm.value.eventDate);
-  console.log(ngForm.value.eventMessage);
-  this.apiService.createEvent(ngForm.value.eventDate,ngForm.value.eventMessage).subscribe({
-    next: data => {
-     if(data.statusResponse.statusType == StatusResponseType.SUCCESS){
-      this.updateDateAndResourceDeatailsResp(data.resourceAndDateDetail);
-     }
-     this.isLoadingDiabled = true;
-     console.error('status response', data.statusResponse);
-    },
-    error: error => {
-      this.isLoadingDiabled = true;
-        console.error('There was an error!', error);
-    }
-  })
-}
+
 updateResourceDetails(resourceDetail: ResourceDetail, eventId : string){
+  if(eventId === undefined || eventId === ''){
+    return;
+  }
   if(this.dateAndResourceDeatailsResp != undefined){
+    console.log("this.seletedEvent Going to publish resourceDetail", resourceDetail);
+    console.log("this.seletedEvent Going to publish eventId", eventId);
+    console.log("this.seletedEvent Going to publish dateAndResourceDeatailsResp", this.dateAndResourceDeatailsResp);
     for(var resourceAndDateDetail of this.dateAndResourceDeatailsResp){
       if(resourceAndDateDetail.dateDetail.eventId === eventId){
         resourceAndDateDetail.resourceDetails.push(resourceDetail);
+        this.seletedEvent = resourceAndDateDetail;
+        
+        console.log("this.seletedEvent Going to publish", this.seletedEvent);
+        this.vsDataSharingService.updateSelectedEventData(this.seletedEvent);
       }
     }
   }
 }
+
 updateDateAndResourceDeatailsResp(resourceAndDateDetail: ResourceAndDateDetail){
+  if(resourceAndDateDetail === undefined 
+    || resourceAndDateDetail.dateDetail === undefined 
+    || resourceAndDateDetail.dateDetail.eventId === undefined
+    || resourceAndDateDetail.dateDetail.eventId === ''){
+      return;
+    }
   if(this.dateAndResourceDeatailsResp === undefined){
     this.dateAndResourceDeatailsResp = [];
   }

@@ -1,0 +1,16 @@
+.add-event-container{
+    display: flex;
+    min-width: 100%;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+.add-event{
+    display: block;
+    position: relative;
+    right: 5px;
+    bottom: 5px;
+}
+.alertPos{
+    top: 1em;
+}
+

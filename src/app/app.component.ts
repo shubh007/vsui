@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 //import { NgbCarouselConfig, NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from './api.service';
 import { DateAndResourceDeatails, ResourceAndDateDetail, VsUiConstants } from './vsuiconst';
+import { Title } from '@angular/platform-browser';
 //import { VsUiConstants } from "./vsuiconst.ts";
 
 //declare var particlesJS: any;
@@ -16,7 +17,8 @@ export class AppComponent {
 
   ngOnInit(): void {
     //particlesJS.load('particles-js', '../assets/jslib/particle/particles.json', null);
+    this.title.setTitle('vs');
   } 
 
-  
+  constructor(private title: Title){}
 }

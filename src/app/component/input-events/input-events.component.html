@@ -1,0 +1,30 @@
+<div  class="add-event-container" > <button #openAddToEventModal type="button" class="btn btn-success add-event hide" data-bs-toggle="modal" [attr.data-bs-target]=dataBsTarget ><i class="bi bi-cloud-plus-fill"></i></button></div>
+
+
+
+
+<div class="modal fade" [id]=modalId tabindex="-1" [attr.aria-labelledby]=ariaLabelledby aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" [id]=ariaLabelledby>Hey {{this.firstName}} <i class="bi bi-emoji-heart-eyes"></i> , Lets add some memories!! </h1>
+          <button #closeAddToEventModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #addToEventForm = "ngForm" (ngSubmit) = "addToEvent(addToEventForm)">
+            <div class="mb-3">
+              <input class="form-control" name = "eventFile" type="file" id="formFile" accept="image/*, video/*" (change)="onFileSelected($event)" ngModel>
+            </div>
+            <button *ngIf="!uploadInProgress" type="submit" class="btn btn-primary">Upload</button>
+          </form>
+          <div  *ngIf="uploadInProgress"  class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-striped bg-success" [style.width]="progress + '%'">{{progress}}%</div>
+          </div>
+          <div [ngClass]="statusMessageColor" *ngIf="alertInProgress" class="alert alert-dismissible alertPos" role="alert">
+            <div> {{statusMessage}} </div>
+             <button type="button" class="btn-close" (click)="closeStatusAlert()" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

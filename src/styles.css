@@ -1,6 +1,55 @@
+:root {
+    --header-background-color: #086873;
+    --body-background-color: #164238;;
+}
+.header-bg-color{
+    background-color: var(--header-background-color);
+}  
+.body-bg-color{
+    background-color: var(--body-background-color);
+}  
+.vsnav{
+    border: 0px;
+    background-color: var(--header-background-color) !important;
+    color: white;
+   /* background: linear-gradient(180deg, rgba(3,70,78,1) 0%, rgba(8,104,115,1) 37%, rgba(3,70,78,1) 0%); */
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
 .vscontainer{
     margin: 0 !important;
     padding: 0 !important;
     display: block;
-    background: rgb(8, 168, 107);
+    max-width: 100%;
+}
+.full-screen{
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block;
+    position: relative;
+    width: 100% !important;
+    height: 100% !important;
+}
+.vscard{
+    width: 14rem;
+    height: 21rem;
+    margin: 0.8em;
+    border-color: #000;
+    border-width: 0; 
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.hide{
+    display: none !important;
+ }
+ .actualImage {
+    height: 100%;
+    width: 100%;
+}
+.actualVideo{
+    height: 100%;
+    width: 100%;
+}
+.vs-model-body{
+    padding: 0 !important;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }

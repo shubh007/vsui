@@ -2,41 +2,31 @@
     display: block;
     height: 100%;
     width: 100%;
-    background-color: #2da900;
+    
 }
 .home-header{
-    height: 100%;
+    height: 20%;
     width: 100%;
 }
+.vsbotton{
+    background-color: #ffffff;
+    color:  #086873;
+    border-color: #086873;
+}
 .home-body{
-
-}
-.alertPos{
-    top: 1em;
-}
-.create-event{
-    display: block;
-    position: relative;
-    left: 5px;
-    top: 5px;
-}
-.create-event-container{
+    height: 80%;
+    width: 100%;
     display: flex;
-    min-width: 100%;
     flex-direction: row;
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    background-color: var(--body-background-color);
+    justify-content: center;
+    overflow-y: scroll;
 }
-.add-event-container{
-    display: flex;
-    min-width: 100%;
-    flex-direction: row-reverse;
-    justify-content: flex-start;
-}
-.add-event{
-    display: block;
-    position: relative;
-    right: 5px;
-    bottom: 5px;
+
+
+.vsnavcf{
+   /* background-color: #d7e2fa00 !important; */
 }
 .image-wrapper{
     display: flex;

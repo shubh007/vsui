@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddToEventResponse, ApiResponse, AuthResponse, CreateEventRequest, CreateEventResponse, DatesWithResourceResponse, VsUiConstants } from './vsuiconst';
+import { AddToEventResponse, ApiResponse, AuthResponse, CreateEventRequest, CreateEventResponse, DatesWithResourceResponse, MemoryFileAndMetaUploadRequest, VsUiConstants } from './vsuiconst';
 import { HttpClient, HttpHeaders,HttpEventType,HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { LocalStorageService } from './service/local-storage.service';
 @Injectable({
@@ -8,26 +8,34 @@ import { LocalStorageService } from './service/local-storage.service';
 })
 export class ApiService {
 
-  //baseUrl = VsUiConstants.BASE_IMAGE_URL_LOCAL;
-  baseUrl = VsUiConstants.BASE_IMAGE_URL_PROD;
+  baseUrl = VsUiConstants.BASE_IMAGE_URL_LOCAL;
+  //baseUrl = VsUiConstants.BASE_IMAGE_URL_PROD;
   constructor(private http: HttpClient, private localStorageService : LocalStorageService) { }
 
-  public createEvent(date : Date, message : string) : Observable<CreateEventResponse>{
-    let createEventRequest = {
-      userId: this.localStorageService.getUserDetails().userId,
-      code: this.localStorageService.getUserDetails().godModeCode,
-      date: date,
-      message: message,
-    } as CreateEventRequest;
+  public createEvent(createEventRequest : CreateEventRequest) : Observable<HttpEvent<CreateEventResponse>>{
+    let createEventFormRequest = new FormData();
+    createEventFormRequest.append("userId", this.localStorageService.getUserId());
+    createEventFormRequest.append("code", this.localStorageService.getGodModeCode());
+    Object.entries(createEventRequest).forEach(([key, value], index) => {
+      console.log(key, value, index);
+      createEventFormRequest.append(key, value);
+    }); 
     const url = this.baseUrl+"event";
-    return this.http.post<CreateEventResponse>(url,createEventRequest);
+    console.log("url ",url);
+    return this.http.post<CreateEventResponse>(url,createEventFormRequest,{
+      reportProgress: true,
+      observe: "events"
+    });
   }
-  public addToEvent(eventId : string, eventFile : File) : Observable<HttpEvent<AddToEventResponse>>{
+  public addToEvent(memoryFileAndMetaUploadRequest : MemoryFileAndMetaUploadRequest) : Observable<HttpEvent<AddToEventResponse>>{
     let addToEventRequest = new FormData();
     addToEventRequest.append("userId", this.localStorageService.getUserId());
     addToEventRequest.append("code", this.localStorageService.getGodModeCode());
-    addToEventRequest.append("eventId", eventId);
-    addToEventRequest.append("eventFile", eventFile);
+    
+    Object.entries(memoryFileAndMetaUploadRequest).forEach(([key, value], index) => {
+      console.log(key, value, index);
+      addToEventRequest.append(key, value);
+    });
     const url = this.baseUrl+"event";
     return this.http.put<AddToEventResponse>(url,addToEventRequest,{
       reportProgress: true,

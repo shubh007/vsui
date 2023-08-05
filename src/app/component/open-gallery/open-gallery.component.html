@@ -1,0 +1,33 @@
+<button #openGalleryModal type="button" class="btn btn-primary hide" data-bs-toggle="modal" [attr.data-bs-target]=dataBsTarget>
+    Open Gallery
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" [id]=modalId data-bs-keyboard="false" tabindex="-1" [attr.aria-labelledby]=ariaLabelledby aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header vs-modal-header vsnav">
+          <h1 class="modal-title fs-5 vs-modal-title" [id]=ariaLabelledby>{{seletedEventGallery.dateDetail.name}}</h1>
+          <button type="button" class="btn btn-success add-event vs-modal-add-to-event" (click)="openAddToEvent()"><i class="bi bi-cloud-plus-fill"></i></button>
+
+
+          <button #closeGalleryModal type="button" class="btn-close vs-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body body-bg-color">
+            <div class="resourceGallaryContainer">
+                 <div class="resourceContainer" *ngFor="let seletedResourceDetail of seletedEventGallery.resourceDetails ; let i = index"
+                 [ngStyle]="{'height':seletedResourceDetail.height+'px','width':seletedResourceDetail.width+'px'}" 
+                 (click)="openInFullScreen(i)" > 
+                <img *ngIf="seletedResourceDetail.resourceType == 'IMAGE' " class="actualImage" [src]="seletedResourceDetail.url" alt="Random first slide">
+                <video *ngIf="seletedResourceDetail.resourceType == 'VIDEO' " class="actualVideo" controls>
+                  <source [src]="seletedResourceDetail.url" type="video/mp4">
+              </video>
+                </div> 
+                
+            </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  

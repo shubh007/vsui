@@ -1,100 +1,23 @@
 <div class="home-container" > 
   <div class="home-header" >
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Home</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <button class="btn btn-outline-success" type="submit" (click)="logout()">Logout</button>
-        </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary vsnav">
+      <div class="container-fluid vsnavcf">
+        <button class="btn btn-outline-success vsbotton" type="submit" (click)="goToHome()">Home</button>
+        <button class="btn btn-outline-success vsbotton" type="submit" (click)="logout()">Logout</button>
       </div>
     </nav>
 
   </div>
   <div class="home-body" > 
-  <div *ngIf="isLoadingDiabled" class="accordion accordion-flush" id="accordionFlushExample">
-    <div class="accordion-item" *ngFor="let resourceAndDateDetail of dateAndResourceDeatailsResp ; index as i;">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]=getCollapseId(i,true) aria-expanded="false" [attr.aria-controls]=getCollapseId(i,false)>
-        {{'&#9733;' + resourceAndDateDetail.dateDetail.message +'&#9733;' +resourceAndDateDetail.dateDetail.date+'&#9733;'}}
-        </button>
-      </h2>
-      <div [id]=getCollapseId(i,false) class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-        <div class="resourceGallaryContainer">
-          <div class="resourceContainer" *ngFor="let resourceDetail of resourceAndDateDetail.resourceDetails ; index as ii;" 
-          [ngStyle]="{'height':resourceDetail.height+'px','width':resourceDetail.width+'px'}" >
-            <img *ngIf="resourceDetail.resourceType == 'IMAGE' " class="actualImage" [src]="resourceDetail.url" alt="Random first slide">
-            <video *ngIf="resourceDetail.resourceType == 'VIDEO' " class="actualVideo" controls>
-              <source [src]="resourceDetail.url" type="video/mp4">
-          </video>
-          </div>
-        </div>
-       <div class="add-event-container" > <button type="button" class="btn btn-success add-event" data-bs-toggle="modal" data-bs-target="#addToEvent" (click)="updateCurrentEventId(resourceAndDateDetail.dateDetail.eventId)"><i class="bi bi-cloud-plus-fill"></i></button></div>
-      </div>
-    </div>
-    <div class="create-event-container" > <button type="button" class="btn btn-success create-event" data-bs-toggle="modal" data-bs-target="#createEvent"><i class="bi bi-folder-plus"></i> Create New Event</button></div>
-  </div>
+    <app-show-event data-bs-toggle="modal" data-bs-target="#exampleModal" *ngFor="let resourceAndDateDetail of dateAndResourceDeatailsResp ; index as i;" [resourceAndDateDetail] = resourceAndDateDetail (click)="selectEvent(resourceAndDateDetail)">
+    
+    </app-show-event>
+    <app-add-event ></app-add-event>
+    <app-open-gallery  ></app-open-gallery> 
+    <app-input-events [currentEventId]=seletedEvent.dateDetail.eventId></app-input-events>
+    <app-open-carousel></app-open-carousel>
 </div>
 </div>
-<div *ngIf="!isLoadingDiabled">
-  <div  class="spinner-grow text-secondary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <div class="spinner-grow text-secondary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <div class="spinner-grow text-secondary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
-<div class="modal fade" id="addToEvent" tabindex="-1" aria-labelledby="addToEventLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="addToEventLabel">Hey {{this.firstName}} <i class="bi bi-emoji-heart-eyes"></i> , Lets add some memories!! </h1>
-        <button #closeUploadModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form #addToEventForm = "ngForm" (ngSubmit) = "addToEvent(addToEventForm)">
-          <div class="mb-3">
-            <input class="form-control" name = "eventFile" type="file" id="formFile" accept="image/*, video/*" (change)="onFileSelected($event)" ngModel>
-          </div>
-          <button *ngIf="!uploadInProgress" type="submit" class="btn btn-primary">Upload</button>
-        </form>
-        <div  *ngIf="uploadInProgress"  class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar progress-bar-striped bg-success" [style.width]="progress + '%'">{{progress}}%</div>
-        </div>
-        <div [ngClass]="statusMessageColor" *ngIf="alertInProgress" class="alert alert-dismissible alertPos" role="alert">
-          <div> {{statusMessage}} </div>
-           <button type="button" class="btn-close" (click)="closeStatusAlert()" aria-label="Close"></button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="createEvent" tabindex="-1" aria-labelledby="createEventLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="createEventLabel">Hey {{this.firstName}} <i class="bi bi-emoji-heart-eyes"></i> , Lets add some memories!! </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form #createEventForm = "ngForm" (ngSubmit) = "createEvent(createEventForm)">
-          <div class="mb-3">
-            <label for="messageFormControlInput" class="form-label">Enter a message</label>
-            <input type="text" class="form-control" name = "eventMessage"  id="messageFormControlInput" placeholder="Few Words.." ngModel>
-          </div>
-          <div class="mb-3">
-            <label for="dateFormControlInput" class="form-label">Enter event date</label>
-            <input type="date" name = "eventDate" class="form-control" id="dateFormControlInput" ngModel>
-          </div>
-          <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
+<!-- Modal -->

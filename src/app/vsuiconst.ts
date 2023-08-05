@@ -9,6 +9,34 @@ export enum StatusResponseType {
     WARNING = 'WARNING',
     FAILURE = 'FAILURE'
 }
+export enum ModelActions {
+  NO_ACTION = 'NO_ACTION',
+  OPEN = 'OPEN',
+  CLOSE = 'CLOSE'
+}
+export enum ResourceType {
+  IMAGE = 'IMAGE',
+  VIDEO = 'VIDEO'
+}
+export interface MediaFileDetails{
+  eventFile : File;
+  height: number,
+  width: number,
+}
+export interface CreateEventRequest{
+  eventCardPic: File,
+  message: string,
+  name: string,
+  date: string
+}
+export interface MemoryFileAndMetaUploadRequest{
+  eventFile : File;
+  height: number,
+  width: number,
+  description: string,
+  //date: Date
+  eventId: string
+}
 export interface ApiRequest {
   userId: string;
   code: string;
@@ -25,14 +53,19 @@ export interface StatusResponse {
 }
 export interface DateDetail {
   date: string;
+  name: string;
   message: string;
+  cardUrl: string;
   eventId: string;
 }
-
+export interface ResourceDetailAddEvent {
+  eventId: string;
+  resourceDetail: ResourceDetail;
+}
 export interface ResourceDetail {
   url: string;
   hashFile: string;
-  resourceType: string;
+  resourceType: ResourceType;
   height: number;
   width: number;
 }
@@ -61,252 +94,127 @@ export interface CreateEventResponse extends ApiResponse{
 export interface AddToEventResponse extends ApiResponse{
   resourceDetail: ResourceDetail ;
 }
-export interface CreateEventRequest extends ApiRequest{
-    date : Date;
-    message : string;
-}
 
 export const DateAndResourceDeatails = {
+    "statusResponse": {
+        "statusCode": 1003,
+        "statusMessage": "Event fetched successfully",
+        "statusType": "SUCCESS",
+        "errors": null
+    },
+    "name": "Varsha Singh",
+    "resourceAndDateDetails": [
+        {
+            "dateDetail": {
+                "date": "11-Nov-2020",
+                "message": "Dur se Introduction",
+                "eventId": "firstGivenPics"
+            },
+            "order": 1,
+            "resourceDetails": [
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/2020/11/11/images/event_pic_1689117158054.jpg",
+                    "hashFile": "12e2e031488c99a0559cd229cbb3b789",
+                    "resourceType": "IMAGE",
+                    "height": 446,
+                    "width": 200
+                },
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/2020/11/11/images/event_pic_1689117210449.jpg",
+                    "hashFile": "a286064e7cf0abac9c307e6b5aca8de7",
+                    "resourceType": "IMAGE",
+                    "height": 250,
+                    "width": 200
+                },
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/2020/11/11/images/event_pic_1689117217064.jpg",
+                    "hashFile": "1b7d904d46b8c6ab89b7da9f45987e92",
+                    "resourceType": "IMAGE",
+                    "height": 266,
+                    "width": 200
+                },
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/2020/11/11/images/event_pic_1689117222412.jpg",
+                    "hashFile": "f060f5d10a3ea661935c55ecd00dd4d1",
+                    "resourceType": "IMAGE",
+                    "height": 201,
+                    "width": 200
+                },
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/2020/11/11/images/event_pic_1689117227930.jpg",
+                    "hashFile": "6537bc22b2d9e28524c6d4731699ed98",
+                    "resourceType": "IMAGE",
+                    "height": 300,
+                    "width": 200
+                },
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/2020/11/11/images/event_pic_1689117232970.jpg",
+                    "hashFile": "5e16b67668a4b62334921b1f4a4f4e1b",
+                    "resourceType": "IMAGE",
+                    "height": 198,
+                    "width": 200
+                }
+            ]
+        },
+        {
+            "dateDetail": {
+                "date": null,
+                "message": "Cute Creations",
+                "eventId": "cuteCreations"
+            },
+            "order": 2,
+            "resourceDetails": [
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/cuteCreations/images/event_pic_1689117304642.PNG",
+                    "hashFile": "98e6d1b276ddf438b8b017bd097a31bb",
+                    "resourceType": "IMAGE",
+                    "height": 432,
+                    "width": 200
+                },
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/cuteCreations/videos/event_pic_1689117316804.mp4",
+                    "hashFile": "6bbe085082a1a8749b3123e091743af4",
+                    "resourceType": "VIDEO",
+                    "height": 400,
+                    "width": 300
+                }
+            ]
+        },
+        {
+            "dateDetail": {
+                "date": "05-Mar-2023",
+                "message": "Wedding ",
+                "eventId": "e6e6d7b6-690a-44bf-b471-42935d26f877"
+            },
+            "order": 3,
+            "resourceDetails": []
+        },
+        {
+            "dateDetail": {
+                "date": "02-Nov-2022",
+                "message": "We Are Engaged",
+                "eventId": "engagement"
+            },
+            "order": 4,
+            "resourceDetails": [
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/2022/11/2/images/event_pic_1689264105609.jpg",
+                    "hashFile": "91b9682a7a5388b4d7031bc5baa1ed3d",
+                    "resourceType": "IMAGE",
+                    "height": 250,
+                    "width": 200
+                },
+                {
+                    "url": "https://event-memories.s3.eu-north-1.amazonaws.com/C2C587BF5D5E43A8B639D2B0754212A5/2022/11/2/images/event_pic_1689264140699.jpg",
+                    "hashFile": "9d4780e589969d25e29457d36d56e54a",
+                    "resourceType": "IMAGE",
+                    "height": 300,
+                    "width": 200
+                }
+            ]
+        }
+    ]
+
+    
   
-  "resourceAndDateDetails": [
-    {
-      "dateDetail": {
-        "date": "Nov 11, 2020",
-        "message": "Dur se Introduction"
-      },
-      "order": 1,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/firstGivenPics/images/Pic1.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/firstGivenPics/images/Pic2.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/firstGivenPics/images/Pic3.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/firstGivenPics/images/Pic4.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/firstGivenPics/images/Pic5.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/firstGivenPics/images/Pic6.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/firstGivenPics/images/Pic7.jpg",
-          "resourceType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Apr 10, 2022",
-        "message": "Introduction"
-      },
-      "order": 2,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/firstVideoMeeting/images/firstScreenShot.png",
-          "resourceType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Apr 10, 2022",
-        "message": "1st chat interaction"
-      },
-      "order": 3,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/firstChat/images/firstChat.png",
-          "resourceType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "May 22, 2022",
-        "message": "1st meeting"
-      },
-      "order": 4,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/firstMeeting/images/FirstMeetingPic.jpg",
-          "resourceType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Oct 27, 2022",
-        "message": "1st love confessions"
-      },
-      "order": 5,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/confessionOfLove/images/PHOTO-2022-11-13-17-12-04.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/confessionOfLove/images/PHOTO-2022-11-13-17-12-04 2.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/confessionOfLove/images/PHOTO-2022-11-13-17-12-04 3.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/confessionOfLove/images/PHOTO-2022-11-13-17-12-05.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/confessionOfLove/images/PHOTO-2022-11-13-17-12-05 2.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/confessionOfLove/images/PHOTO-2022-11-13-17-12-05 3.jpg",
-          "resourceType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Nov 2, 2022",
-        "message": "Engagement"
-      },
-      "order": 6,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/engagement/images/PHOTO-2022-11-08-22-47-08.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/engagement/images/PHOTO-2022-11-09-16-02-13.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/engagement/images/PHOTO-2022-11-12-17-22-10.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/engagement/images/PHOTO-2022-11-12-19-18-50.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/engagement/images/PHOTO-2022-11-15-19-21-20.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/engagement/images/PHOTO-2022-11-15-19-35-14.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/engagement/images/PHOTO-2022-11-15-19-35-56.jpg",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/engagement/images/Purple Flower Watercolor Rustic Wedding Invitation Card.jpg",
-          "resourceType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Nov 13, 2022",
-        "message": "First I love you on call"
-      },
-      "order": 7,
-      "resourceDetails": [
-        
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "",
-        "message": "Cute Creations"
-      },
-      "order": 8,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/cuteCreations/images/IMG_5959.PNG",
-          "resourceType": "IMAGE"
-        },
-        {
-          "url": "http://localhost:9100/vs/cuteCreations/videos/VIDEO-2022-12-19-07-10-33.mp4",
-          "resourceType": "VIDEO"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Dec 16, 2022",
-        "message": "1st alone interaction"
-      },
-      "order": 9,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/delhiMeet/videos/VIDEO-2022-12-18-14-40-17.mp4",
-          "resourceType": "VIDEO"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Dec 30, 2022",
-        "message": "1st Video Call"
-      },
-      "order": 10,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/firstVideoCall/images/IMG_4333.PNG",
-          "resourceType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Mar 5, 2023",
-        "message": "Wedding"
-      },
-      "order": 11,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/shadi/images/VIDEO-2023-02-12-07-20-19.mp4",
-          "resourceType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "Mar 6, 2023",
-        "message": "Rest all first"
-      },
-      "order": 12,
-      "resourceDetails": [
-        
-      ]
-    },
-    {
-      "dateDetail": {
-        "date": "",
-        "message": "My Cute Bebu"
-      },
-      "order": 13,
-      "resourceDetails": [
-        {
-          "url": "http://localhost:9100/vs/cuteBaby/videos/VIDEO-2022-12-20-04-36-17.mp4",
-          "resourceType": "VIDEO"
-        }
-      ]
-    }
-  ]
 }

@@ -56,3 +56,9 @@ sudo nginx -s reload
 sudo npm install --global http-server
 
 sudo lsof -i:8080
+
+
+npm install bootstrap
+
+
+npm install ngx-image-cropper --save

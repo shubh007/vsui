@@ -1,0 +1,65 @@
+<div class="card vscard vscard-add" data-bs-toggle="modal" data-bs-target="#createEvent">
+    <svg style="
+    height: 8rem;
+    width: 8rem;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+      </svg>
+  </div>
+
+<div class="modal fade" id="createEvent" tabindex="-1" aria-labelledby="createEventLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="createEventLabel">Hey {{this.firstName}} <i class="bi bi-emoji-heart-eyes"></i> , Lets add some memories!! </h1>
+          <button #closeUploadModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #createEventForm = "ngForm" (ngSubmit) = "createEvent(createEventForm)">
+            <div class="row align-items-start ">
+              <div #textInputs class="col">
+                <div class="mb-3">
+                  <label for="messageFormControlInput" class="form-label">Name</label>
+                  <input type="text" class="form-control" name = "eventName"  id="messageFormControlInput" placeholder="event name" ngModel>
+                </div>
+                <div class="mb-3">
+                  <label for="dateFormControlInput" class="form-label">Date</label>
+                  <input type="date" name = "eventDate" class="form-control" id="dateFormControlInput" ngModel>
+                </div>
+                <div class="mb-3">
+                  <label for="messageFormControlInput" class="form-label">Message</label>
+                  <textarea rows="2" cols="33" class="form-control" name = "eventMessage"  id="messageFormControlInput" placeholder="few words for event.." ngModel>
+                  </textarea >
+              </div>
+              <button *ngIf="!uploadInProgress" type="submit" class="btn btn-primary">Create</button>
+              </div>
+              <div class="col">
+                <div #chooseFileInput class="mb-3">
+                  <input class="form-control" name = "eventFile" type="file" id="formFile" accept="image/*" (change)="onFileSelected($event)" ngModel>
+                </div>
+                <div class="image-preview-wrapper" [style]="{height : previewHeight, width : previewWidth}">
+                  <image-cropper 
+                      [imageChangedEvent]="imageChangedEvent"
+                      [maintainAspectRatio]="true"
+                      [aspectRatio]=toBeCropedInRatio
+                      format="png"
+                      (imageCropped)="imageCropped($event)"
+                      (imageLoaded)="imageLoaded($event)"
+                      (cropperReady)="cropperReady()"
+                      (loadImageFailed)="loadImageFailed()"
+                  ></image-cropper>
+                  </div>
+              </div>
+            </div>
+          </form>
+          <div  *ngIf="uploadInProgress"  class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-striped bg-success" [style.width]="progress + '%'">{{progress}}%</div>
+          </div>
+          <div [ngClass]="statusMessageColor" *ngIf="alertInProgress" class="alert alert-dismissible alertPos" role="alert">
+            <div> {{statusMessage}} </div>
+             <button type="button" class="btn-close" (click)="closeStatusAlert()" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

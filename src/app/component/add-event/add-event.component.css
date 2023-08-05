@@ -1,0 +1,30 @@
+.create-event{
+    display: block;
+    position: relative;
+    left: 5px;
+    top: 5px;
+}
+.create-event-container{
+    display: flex;
+    min-width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.vscard-add{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.vscard-add:hover {
+    background: #999;
+    cursor: pointer;
+}
+.image-preview-wrapper{
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+}

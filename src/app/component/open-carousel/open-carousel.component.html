@@ -1,0 +1,46 @@
+<button #openCarouselModal type="button" class="btn btn-primary hide" data-bs-toggle="modal" [attr.data-bs-target]=dataBsTarget>
+    Open Carousel
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" [id]=modalId data-bs-keyboard="false" tabindex="-1" [attr.aria-labelledby]=ariaLabelledby aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header vsnav">
+          <h1 class="modal-title fs-5" [id]=ariaLabelledby>{{seletedEventCarousel.dateDetail.name}}</h1>
+          <button #closeCarouselModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div #carouselContainer class="modal-body vs-model-body">
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-indicators">
+                  <button type="button" *ngFor="let seletedResourceDetail of seletedEventCarousel.resourceDetails ; let i = index" data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class]="getActiveStatus(i)" [attr.aria-current]="isCurrentActive(i)" aria-label="Slide 1"></button>
+               </div>
+                <div class="carousel-inner">
+                  <div [class]="getCarouselActiveStatus(ii)"  *ngFor="let seletedResourceDetail of seletedEventCarousel.resourceDetails ; let ii = index">
+                    <div class="vs-carousel-item body-bg-color">
+                  <div [ngStyle]="updateHeightAndWidth(seletedResourceDetail)"  >
+                    <img *ngIf="seletedResourceDetail.resourceType == 'IMAGE' " class="d-block w-100 actualImage" [src]="seletedResourceDetail.url" alt="Random first slide">
+                    <video *ngIf="seletedResourceDetail.resourceType == 'VIDEO' " class="d-block w-100 actualVideo" controls>
+                      <source [src]="seletedResourceDetail.url" type="video/mp4">
+                  </video>
+                </div>
+            </div>
+                  </div>
+                
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
